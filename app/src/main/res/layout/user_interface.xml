@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/txtAnhCaNhan"
+        android:layout_width="274dp"
+        android:layout_height="35dp"
+        android:text="Thông tin cá nhân"
+        tools:layout_editor_absoluteX="64dp"
+        tools:layout_editor_absoluteY="64dp" />
+
+    <TextView
+        android:id="@+id/txtThongTinCaNhan"
+        android:layout_width="229dp"
+        android:layout_height="34dp"
+        android:text="Thông tin cá nhân"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="301dp" />
+
+    <Button
+        android:id="@+id/btnQuayLai"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Quay lại"
+        tools:layout_editor_absoluteX="10dp"
+        tools:layout_editor_absoluteY="16dp" />
+
+    <ImageView
+        android:id="@+id/imgAnhCaNhan"
+        android:layout_width="316dp"
+        android:layout_height="184dp"
+        tools:layout_editor_absoluteX="46dp"
+        tools:layout_editor_absoluteY="103dp"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <EditText
+        android:id="@+id/beHoVaTen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        android:text="Họ và tên"
+        tools:layout_editor_absoluteX="176dp"
+        tools:layout_editor_absoluteY="344dp" />
+
+    <EditText
+        android:id="@+id/beGioiTinh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        android:text="Name"
+        tools:layout_editor_absoluteX="176dp"
+        tools:layout_editor_absoluteY="391dp" />
+
+    <EditText
+        android:id="@+id/beNgaySinh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        android:text="Name"
+        tools:layout_editor_absoluteX="176dp"
+        tools:layout_editor_absoluteY="436dp" />
+
+    <EditText
+        android:id="@+id/beNgayQuet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        android:text="Name"
+        tools:layout_editor_absoluteX="176dp"
+        tools:layout_editor_absoluteY="526dp" />
+
+    <EditText
+        android:id="@+id/beViPham"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        android:text="Name"
+        tools:layout_editor_absoluteX="176dp"
+        tools:layout_editor_absoluteY="481dp" />
+
+    <TextView
+        android:id="@+id/txtHoVaTen"
+        android:layout_width="69dp"
+        android:layout_height="43dp"
+        android:text="Họ và tên:"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="344dp" />
+
+    <TextView
+        android:id="@+id/txtGioiTinh"
+        android:layout_width="69dp"
+        android:layout_height="43dp"
+        android:text="Giới tính:"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="387dp" />
+
+    <TextView
+        android:id="@+id/txtNgaySinh"
+        android:layout_width="66dp"
+        android:layout_height="47dp"
+        android:text="Ngày sinh: "
+        tools:layout_editor_absoluteX="19dp"
+        tools:layout_editor_absoluteY="430dp" />
+
+    <TextView
+        android:id="@+id/txtViPham"
+        android:layout_width="115dp"
+        android:layout_height="38dp"
+        android:text="Số lần vi pham: "
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="481dp" />
+
+    <TextView
+        android:id="@+id/txtNgayQuet"
+        android:layout_width="69dp"
+        android:layout_height="43dp"
+        android:text="Ngày quét: "
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="523dp" />
+
+    <LinearLayout
+        android:layout_width="402dp"
+        android:layout_height="98dp"
+        android:orientation="horizontal"
+        tools:layout_editor_absoluteX="2dp"
+        tools:layout_editor_absoluteY="605dp">
+
+        <Button
+            android:id="@+id/btnLichSuQuet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Lịch Sử Quét" />
+
+        <Button
+            android:id="@+id/btnChinhSua"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Yêu cầu chỉnh sửa" />
+
+        <Button
+            android:id="@+id/btnTroGiup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Trợ Giúp" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnQuetLai"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Quét Lại"
+        tools:layout_editor_absoluteX="285dp"
+        tools:layout_editor_absoluteY="287dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
