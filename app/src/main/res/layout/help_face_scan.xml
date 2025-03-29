@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/btnReturnHelp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Quay lại"
+        tools:layout_editor_absoluteX="22dp"
+        tools:layout_editor_absoluteY="18dp" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="337dp"
+        android:layout_height="40dp"
+        android:text="1, Hướng dẫn sử dụng &quot;Giao diện quét khuôn mặt&quot;"
+        tools:layout_editor_absoluteX="46dp"
+        tools:layout_editor_absoluteY="112dp" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="340dp"
+        android:layout_height="39dp"
+        android:text="- Nhấn chọn chế độ quét khuôn mặt (Tự động quét và tự mình quét)"
+        tools:layout_editor_absoluteX="46dp"
+        tools:layout_editor_absoluteY="167dp" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="341dp"
+        android:layout_height="55dp"
+        android:text="- Sau đó đưa mặt vào chính giữa camera, nhìn thẳng, đưa đéne nơi có đủ ánh sáng và tiến hành chụp nếu chọn chế độ &quot;Tự quét&quot;"
+        tools:layout_editor_absoluteX="46dp"
+        tools:layout_editor_absoluteY="206dp" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="341dp"
+        android:layout_height="77dp"
+        android:text="- Sau khi quét xong chờ khoảng 5-10s để app xử lý ảnh quét của bạn. Nếu hợp lệ sẽ tiến hành chuyển tới trang thông tin cá nhân. Nếu lỗi sẽ thông báo chụp lại"
+        tools:layout_editor_absoluteX="46dp"
+        tools:layout_editor_absoluteY="261dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>

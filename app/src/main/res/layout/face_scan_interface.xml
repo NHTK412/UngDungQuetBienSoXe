@@ -1,6 +1,152 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/btnReturnScan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#2196F3"
+        android:text="Quay lại"
+        android:textColor="#070707"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="16dp" />
+
+    <ImageView
+        android:id="@+id/imgViewScan"
+        android:layout_width="347dp"
+        android:layout_height="222dp"
+        tools:layout_editor_absoluteX="32dp"
+        tools:layout_editor_absoluteY="124dp"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/txtInformationScan"
+        android:layout_width="338dp"
+        android:layout_height="30dp"
+        android:lineSpacingExtra="8sp"
+        android:text="Vui lòng để khuôn mặt vào giữa khung hình !"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        tools:layout_editor_absoluteX="41dp"
+        tools:layout_editor_absoluteY="350dp" />
+
+    <LinearLayout
+        android:layout_width="365dp"
+        android:layout_height="76dp"
+        android:orientation="horizontal"
+        tools:layout_editor_absoluteX="30dp"
+        tools:layout_editor_absoluteY="625dp">
+
+        <Button
+            android:id="@+id/btnScanHistory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="#2196F3"
+            android:text="Lịch sử quét"
+            android:textColor="#070707" />
+
+        <Button
+            android:id="@+id/btnError"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="#2196F3"
+            android:text="Báo lỗi"
+            android:textColor="#090909" />
+
+        <Button
+            android:id="@+id/btnHelp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="#2196F3"
+            android:text="Trợ giúp"
+            android:textColor="#090909" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="174dp"
+        android:layout_height="39dp"
+        android:orientation="horizontal"
+        tools:layout_editor_absoluteX="30dp"
+        tools:layout_editor_absoluteY="476dp">
+
+        <ImageView
+            android:id="@+id/imgViewOff"
+            android:layout_width="69dp"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/off" />
+
+        <Button
+            android:id="@+id/btnAutoScan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#2196F3"
+            android:text="Tự động quét"
+            android:textColor="#050505" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/txtModelScan"
+        android:layout_width="174dp"
+        android:layout_height="43dp"
+        android:background="#2196F3"
+        android:gravity="center"
+        android:text="Chọn chế độ quét"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        tools:layout_editor_absoluteX="119dp"
+        tools:layout_editor_absoluteY="415dp" />
+
+    <LinearLayout
+        android:layout_width="175dp"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        tools:layout_editor_absoluteX="220dp"
+        tools:layout_editor_absoluteY="475dp">
+
+        <ImageView
+            android:id="@+id/imgViewOff"
+            android:layout_width="73dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/off" />
+
+        <Button
+            android:id="@+id/btnManualScan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="#2196F3"
+            android:text="Tự quét"
+            android:textColor="#070707" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="302dp"
+        android:layout_height="29dp"
+        android:background="#2196F3"
+        android:shadowColor="#122F27"
+        android:text="GIAO DIỆN NHÂN DIỆN KHUÔN MẶT"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        tools:layout_editor_absoluteX="70dp"
+        tools:layout_editor_absoluteY="82dp" />
+
+    <TextView
+        android:id="@+id/txtDataProcess"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dữ liệu đang được xử lý ....."
+        tools:layout_editor_absoluteX="119dp"
+        tools:layout_editor_absoluteY="568dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
