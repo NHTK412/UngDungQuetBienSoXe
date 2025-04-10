@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/txt_QuayLai"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="29dp"
+        android:layout_marginTop="20dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="8dp"
+        android:text="Quay lại"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/txt_Header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nhập mã xác nhận"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"/>
+
+    <LinearLayout
+        android:id="@+id/code_boxes_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txt_Header"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/code_box_1"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:background="@drawable/verification_code_box"
+            android:gravity="center"
+            android:inputType="number"
+            android:maxLength="1"
+            android:textSize="20sp"
+            android:layout_marginEnd="8dp"
+            android:imeOptions="actionNext"/>
+
+        <EditText
+            android:id="@+id/code_box_2"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:background="@drawable/verification_code_box"
+            android:gravity="center"
+            android:inputType="number"
+            android:maxLength="1"
+            android:textSize="20sp"
+            android:layout_marginEnd="8dp"
+            android:imeOptions="actionNext"/>
+
+        <EditText
+            android:id="@+id/code_box_3"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:background="@drawable/verification_code_box"
+            android:gravity="center"
+            android:inputType="number"
+            android:maxLength="1"
+            android:textSize="20sp"
+            android:layout_marginEnd="8dp"
+            android:imeOptions="actionNext"/>
+
+        <EditText
+            android:id="@+id/code_box_4"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:background="@drawable/verification_code_box"
+            android:gravity="center"
+            android:inputType="number"
+            android:maxLength="1"
+            android:textSize="20sp"
+            android:layout_marginEnd="8dp"
+            android:imeOptions="actionNext"/>
+
+        <EditText
+            android:id="@+id/code_box_5"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:background="@drawable/verification_code_box"
+            android:gravity="center"
+            android:inputType="number"
+            android:maxLength="1"
+            android:textSize="20sp"
+            android:layout_marginEnd="8dp"
+            android:imeOptions="actionNext"/>
+
+        <EditText
+            android:id="@+id/code_box_6"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:background="@drawable/verification_code_box"
+            android:gravity="center"
+            android:inputType="number"
+            android:maxLength="1"
+            android:textSize="20sp"
+            android:imeOptions="actionDone"/>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_Verify"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="xác nhận"
+        android:layout_below="@id/code_boxes_container"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/rounded_button"
+        android:textColor="#FFFFFF"
+        android:paddingStart="30dp"
+        android:paddingEnd="30dp"/>
+
+    <TextView
+        android:id="@+id/txt_ResendCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Gửi lại mã (60s)"
+        android:textColor="#6750A4"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_below="@id/btn_Verify"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp"
+        android:padding="8dp" />
+
+</RelativeLayout>
