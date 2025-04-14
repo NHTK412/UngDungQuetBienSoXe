@@ -12,11 +12,11 @@ public class HistoryScanFaceScan extends AppCompatActivity {
         setContentView(R.layout.history_scan_face_scan);
 
         // Thêm nút quay lại
-        Button btnBack = findViewById(R.id.btnBack); // Giả sử bạn có nút có ID là btnBack
+        Button btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish(); // Khi nhấn nút quay lại sẽ đóng Activity hiện tại và quay về màn hình trước
+                finish();
             }
         });
     }

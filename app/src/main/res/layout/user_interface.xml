@@ -3,155 +3,161 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="16dp">
 
-    <TextView
-        android:id="@+id/txtAnhCaNhan"
-        android:layout_width="274dp"
-        android:layout_height="35dp"
-        android:text="Thông tin cá nhân"
-        tools:layout_editor_absoluteX="64dp"
-        tools:layout_editor_absoluteY="64dp" />
-
-    <TextView
-        android:id="@+id/txtThongTinCaNhan"
-        android:layout_width="229dp"
-        android:layout_height="34dp"
-        android:text="Thông tin cá nhân"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="301dp" />
-
+    <!-- Nút Quay Lại -->
     <Button
         android:id="@+id/btnQuayLai"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Quay lại"
-        tools:layout_editor_absoluteX="10dp"
-        tools:layout_editor_absoluteY="16dp" />
+        android:textColor="#000000"
+        android:backgroundTint="#2196F3"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-    <ImageView
-        android:id="@+id/imgAnhCaNhan"
-        android:layout_width="316dp"
-        android:layout_height="184dp"
-        tools:layout_editor_absoluteX="46dp"
-        tools:layout_editor_absoluteY="103dp"
-        tools:srcCompat="@tools:sample/avatars" />
+
+
+
+
+    <!-- Tiêu đề -->
+    <TextView
+        android:id="@+id/txtHeading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Thông tin cá nhân"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/btnQuayLai"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp" />
+
+    <!-- Họ và tên -->
+    <TextView
+        android:id="@+id/txtHoVaTen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Họ và tên:"
+        app:layout_constraintTop_toBottomOf="@id/txtHeading"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="24dp" />
 
     <EditText
         android:id="@+id/beHoVaTen"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Họ và tên"
+        android:inputType="textPersonName"
+        app:layout_constraintTop_toTopOf="@id/txtHoVaTen"
+        app:layout_constraintStart_toEndOf="@id/txtHoVaTen"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="8dp" />
+
+    <!-- ID -->
+    <TextView
+        android:id="@+id/txtID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
+        android:text="ID:"
+        app:layout_constraintTop_toBottomOf="@id/beHoVaTen"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp" />
+
+    <EditText
+        android:id="@+id/beID"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="ID"
         android:inputType="text"
-        android:text="Họ và tên"
-        tools:layout_editor_absoluteX="176dp"
-        tools:layout_editor_absoluteY="344dp" />
+        app:layout_constraintTop_toTopOf="@id/txtID"
+        app:layout_constraintStart_toEndOf="@id/txtID"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="8dp" />
+
+    <!-- Giới tính -->
+    <TextView
+        android:id="@+id/txtGioiTinh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Giới tính:"
+        app:layout_constraintTop_toBottomOf="@id/beID"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp" />
 
     <EditText
         android:id="@+id/beGioiTinh"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Giới tính"
+        android:inputType="text"
+        app:layout_constraintTop_toTopOf="@id/txtGioiTinh"
+        app:layout_constraintStart_toEndOf="@id/txtGioiTinh"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="8dp" />
+
+    <!-- Ngày sinh -->
+    <TextView
+        android:id="@+id/txtNgaySinh"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="text"
-        android:text="Name"
-        tools:layout_editor_absoluteX="176dp"
-        tools:layout_editor_absoluteY="391dp" />
+        android:text="Ngày sinh:"
+        app:layout_constraintTop_toBottomOf="@id/beGioiTinh"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp" />
 
     <EditText
         android:id="@+id/beNgaySinh"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Ngày sinh"
+        android:inputType="date"
+        app:layout_constraintTop_toTopOf="@id/txtNgaySinh"
+        app:layout_constraintStart_toEndOf="@id/txtNgaySinh"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="8dp" />
+
+    <!-- Địa chỉ thường trú -->
+    <TextView
+        android:id="@+id/txtDiaChiThuongTru"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="text"
-        android:text="Name"
-        tools:layout_editor_absoluteX="176dp"
-        tools:layout_editor_absoluteY="436dp" />
+        android:text="Địa chỉ thường trú:"
+        app:layout_constraintTop_toBottomOf="@id/beNgaySinh"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp" />
 
     <EditText
-        android:id="@+id/beNgayQuet"
+        android:id="@+id/beDiaChiThuongTru"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Địa chỉ"
+        android:inputType="textPostalAddress"
+        app:layout_constraintTop_toTopOf="@id/txtDiaChiThuongTru"
+        app:layout_constraintStart_toEndOf="@id/txtDiaChiThuongTru"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="8dp" />
+
+    <!-- Số điện thoại -->
+    <TextView
+        android:id="@+id/txtSoDienThoai"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="text"
-        android:text="Name"
-        tools:layout_editor_absoluteX="176dp"
-        tools:layout_editor_absoluteY="526dp" />
+        android:text="Số điện thoại:"
+        app:layout_constraintTop_toBottomOf="@id/beDiaChiThuongTru"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp" />
 
     <EditText
-        android:id="@+id/beViPham"
-        android:layout_width="wrap_content"
+        android:id="@+id/beSoDienThoai"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="text"
-        android:text="Name"
-        tools:layout_editor_absoluteX="176dp"
-        tools:layout_editor_absoluteY="481dp" />
-
-    <TextView
-        android:id="@+id/txtHoVaTen"
-        android:layout_width="69dp"
-        android:layout_height="43dp"
-        android:text="Họ và tên:"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="344dp" />
-
-    <TextView
-        android:id="@+id/txtGioiTinh"
-        android:layout_width="69dp"
-        android:layout_height="43dp"
-        android:text="Giới tính:"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="387dp" />
-
-    <TextView
-        android:id="@+id/txtNgaySinh"
-        android:layout_width="66dp"
-        android:layout_height="47dp"
-        android:text="Ngày sinh: "
-        tools:layout_editor_absoluteX="19dp"
-        tools:layout_editor_absoluteY="430dp" />
-
-    <TextView
-        android:id="@+id/txtViPham"
-        android:layout_width="115dp"
-        android:layout_height="38dp"
-        android:text="Số lần vi pham: "
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="481dp" />
-
-    <TextView
-        android:id="@+id/txtNgayQuet"
-        android:layout_width="69dp"
-        android:layout_height="43dp"
-        android:text="Ngày quét: "
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="523dp" />
-
-    <LinearLayout
-        android:layout_width="402dp"
-        android:layout_height="98dp"
-        android:orientation="horizontal"
-        tools:layout_editor_absoluteX="2dp"
-        tools:layout_editor_absoluteY="605dp">
-
-        <Button
-            android:id="@+id/btnLichSuQuet"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Lịch Sử Quét" />
-
-        <Button
-            android:id="@+id/btnChinhSua"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Yêu cầu chỉnh sửa" />
-
-        <Button
-            android:id="@+id/btnTroGiup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Trợ Giúp" />
-    </LinearLayout>
+        android:hint="Số điện thoại"
+        android:inputType="phone"
+        app:layout_constraintTop_toTopOf="@id/txtSoDienThoai"
+        app:layout_constraintStart_toEndOf="@id/txtSoDienThoai"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="8dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

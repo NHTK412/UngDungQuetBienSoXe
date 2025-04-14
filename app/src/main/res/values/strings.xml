@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">DoAnMonHocLTM</string>
+    <string name="user_avatar_desc">Ảnh đại diện người dùng</string>
+    <string name="captured_image_desc">Ảnh đã chụp</string>
 </resources>

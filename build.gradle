@@ -1,35 +1,10 @@
-//// Top-level build file where you can add configuration options common to all sub-projects/modules.
-//plugins {
-//    alias(libs.plugins.android.application) apply false
-//}
-
-
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
-
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
-
 buildscript {
-    repositories {
-        google()
-        mavenCentral()
-    }
     dependencies {
-        // Plugin Android Gradle
-        classpath 'com.android.tools.build:gradle:8.9.1'  // Cập nhật phiên bản nếu cần
-
-        // Google Services Plugin
-        classpath 'com.google.gms:google-services:4.3.10'  // Cập nhật nếu cần
+        classpath 'com.google.gms:google-services:4.3.15' // Latest version
     }
 }
 
 plugins {
-    alias(libs.plugins.android.application) apply false  // Chỉ áp dụng cho Android Gradle Plugin
-    alias(libs.plugins.google.services) apply false  // Google Services plugin (nếu có)
-}
-
-allprojects {
-    repositories {
-        google()
-        mavenCentral()
-    }
+    alias(libs.plugins.android.application) apply false
 }

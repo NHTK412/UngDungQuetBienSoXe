@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "230887566301",
+    "project_id": "doanmonhocltm",
+    "storage_bucket": "doanmonhocltm.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:230887566301:android:d7dab7d8dcfc3456e6a434",
+        "android_client_info": {
+          "package_name": "com.example.doanmonhocltm"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBezU3RUOGp5Fg1D8_iRsJfdbunAs88EvU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

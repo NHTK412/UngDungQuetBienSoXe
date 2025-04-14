@@ -2,18 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Cấp quyền camera -->
     <uses-permission android:name="android.permission.CAMERA"/>
-    <!-- Quyền lưu trữ mới cho Android 13+ -->
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
-    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
-    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
-    <uses-permission android:name="android.permission.READ_MEDIA_VISUAL_USER_SELECTED" />
-    <!-- Giữ lại quyền lưu trữ cho các thiết bị cũ hơn Android 13 -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-feature android:name="android.hardware.camera" android:required="true"/>
 
-    <uses-feature android:name="android.hardware.camera" android:required="true" />
 
     <application
         android:allowBackup="true"
@@ -34,16 +26,18 @@
             </intent-filter>
         </activity>
 
+
+
         <activity
             android:name=".UserInterface"
             android:exported="false" />
+
+
 
         <activity
             android:name=".HistoryScanFaceScan"
             android:exported="false" />
 
-        <activity
-            android:name=".HelpFaceScan"
-            android:exported="false" />
+
     </application>
 </manifest>

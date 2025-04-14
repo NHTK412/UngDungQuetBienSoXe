@@ -18,7 +18,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Quay lại"
-        tools:layout_editor_absoluteX="27dp"
-        tools:layout_editor_absoluteY="26dp" />
+        android:textColor="#000000"
+        android:backgroundTint="#2196F3"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
