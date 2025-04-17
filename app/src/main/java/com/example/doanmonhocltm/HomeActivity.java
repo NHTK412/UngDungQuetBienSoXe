@@ -3,7 +3,6 @@ package com.example.doanmonhocltm;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.app.Activity;
@@ -21,9 +20,9 @@ public class HomeActivity extends Activity {
         setContentView(R.layout.user); // Đảm bảo tên layout trùng khớp
 
         // Ánh xạ các view
-        txt_Name = findViewById(R.id.txt_Name);
-        txt_Birthday = findViewById(R.id.txt_Birthday);
-        txt_Gender = findViewById(R.id.txt_Gender);
+        txt_Name = findViewById(R.id.txtfullName);
+        txt_Birthday = findViewById(R.id.txtbirthDay);
+        txt_Gender = findViewById(R.id.txtGender);
         btn_Update = findViewById(R.id.btn_Update);
 
         // Lấy dữ liệu từ Intent nếu có
