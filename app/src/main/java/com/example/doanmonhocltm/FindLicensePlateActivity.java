@@ -282,6 +282,11 @@ public class FindLicensePlateActivity extends AppCompatActivity {
                     startActivity(new Intent(FindLicensePlateActivity.this, UserInfoActivity.class));
                     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                     return true;
+                } else if (id == R.id.nav_accidents)
+                {
+                    startActivity(new Intent(FindLicensePlateActivity.this, AccidentListActivity.class));
+                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                    return true;
                 }
 
                 return false;

@@ -23,56 +23,70 @@
         android:theme="@style/Theme.DoAnMonHocLTM"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-        <activity
-            android:name=".ViolationDetailActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ViolationHistoryActivity"
-            android:exported="false" />
-        <activity
-            android:name=".CreateTicketActivity"
-            android:exported="false" />
-        <activity
-            android:name=".UserInfoActivity"
-            android:exported="false" />
-        <activity
-            android:name=".PersonInfoActivity"
-            android:exported="false" />
-        <activity
-            android:name=".LoginActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".ScanPersonActivity"
-            android:exported="false" />
-        <activity
-            android:name=".FindPersonActivity"
-            android:exported="false" />
-        <activity
-            android:name=".VehicleInfoActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ScanLicensePlateActivity"
-            android:exported="false">
+    <activity
+        android:name=".ViolationDetailActivity"
+        android:exported="false" />
+    <activity
+        android:name=".ViolationHistoryActivity"
+        android:exported="false" />
+    <activity
+        android:name=".CreateTicketActivity"
+        android:exported="false" />
+    <activity
+        android:name=".UserInfoActivity"
+        android:exported="false" />
+    <activity
+        android:name=".PersonInfoActivity"
+        android:exported="false" />
+    <activity
+        android:name=".LoginActivity"
+        android:exported="true">
+<!--                    android:exported="true">-->
 
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+    </activity>
+    <activity
+        android:name=".ScanPersonActivity"
+        android:exported="false" />
+    <activity
+        android:name=".FindPersonActivity"
+        android:exported="false" />
+    <activity
+        android:name=".VehicleInfoActivity"
+        android:exported="false" />
+    <activity
+        android:name=".ScanLicensePlateActivity"
+        android:exported="false">
+
+        <!-- <intent-filter> -->
+        <!-- <action android:name="android.intent.action.MAIN" /> -->
 
 
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
-        </activity>
-        <activity
-            android:name=".FindLicensePlateActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
-            android:exported="false" />
-    </application>
+        <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+        <!-- </intent-filter> -->
+    </activity>
+    <activity
+        android:name=".FindLicensePlateActivity"
+        android:exported="false" />
+    <activity
+        android:name=".MainActivity"
+        android:exported="false" />
+    <activity
+        android:name=".AccidentListActivity"
+        android:exported="false" />
+    <!--        <activity android:name=".AccidentListActivity"-->
+    <!--            android:exported="true">-->
+    <!--            <intent-filter>-->
+    <!--                <action android:name="android.intent.action.MAIN" />-->
+
+    <!--                <category android:name="android.intent.category.LAUNCHER" />-->
+    <!--            </intent-filter>-->
+<!--            </activity>-->
+        </application>
 
 </manifest>

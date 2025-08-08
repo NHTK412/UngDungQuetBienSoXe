@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/ic_home"
+        android:title="Trang chủ" />
+
+    <item
+        android:id="@+id/nav_accidents"
+        android:icon="@drawable/ic_warning"
+        android:title="DS tai nạn" />
+
+    <item
+        android:id="@+id/nav_reports"
+        android:icon="@drawable/ic_report"
+        android:title="Báo cáo" />
+
+    <item
+        android:id="@+id/nav_profile"
+        android:icon="@drawable/ic_person"
+        android:title="Hồ sơ" />
+
+</menu>

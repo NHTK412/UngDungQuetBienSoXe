@@ -4,4 +4,33 @@
     <string name="nh_p_bi_n_s_xe">Nhập Biển Số Xe</string>
     <string name="button">Button</string>
     <string name="switch_camera">Chuyển đổi camera</string>
+
+    <!-- Accident List Activity -->
+    <string name="accident_list_title">Danh sách tai nạn</string>
+    <string name="filter_all">Tất cả</string>
+    <string name="filter_en_route">Đang đến</string>
+    <string name="filter_arrived">Đã đến</string>
+    <string name="no_accidents_title">Không có tai nạn nào</string>
+    <string name="no_accidents_subtitle">Danh sách hiện tại trống</string>
+    <string name="view_details">Xem chi tiết</string>
+    <string name="refresh">Làm mới</string>
+
+    <!-- Status -->
+    <string name="status_en_route">Đang đến</string>
+    <string name="status_arrived">Đã đến</string>
+    <string name="status_pending">Chờ xử lý</string>
+    <string name="status_unknown">Không xác định</string>
+
+    <!-- Accident Types -->
+    <string name="accident_car_crash">Tai nạn xe ô tô</string>
+    <string name="accident_truck_rollover">Xe tải lật</string>
+    <string name="accident_motorcycle">Tai nạn xe máy</string>
+    <string name="accident_pedestrian">Tai nạn người đi bộ</string>
+    <string name="accident_other">Tai nạn khác</string>
+
+    <!-- Bottom Navigation -->
+    <string name="nav_home">Trang chủ</string>
+    <string name="nav_accidents">DS tai nạn</string>
+    <string name="nav_reports">Báo cáo</string>
+    <string name="nav_profile">Hồ sơ</string>
 </resources>

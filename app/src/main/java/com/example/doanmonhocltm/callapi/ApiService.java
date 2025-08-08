@@ -1,6 +1,7 @@
 // ApiService.java
 package com.example.doanmonhocltm.callapi;
 
+import com.example.doanmonhocltm.model.Accident;
 import com.example.doanmonhocltm.model.Car;
 import com.example.doanmonhocltm.model.CarViolationReport;
 import com.example.doanmonhocltm.model.DriverLicense;
@@ -88,6 +89,10 @@ public interface ApiService {
     Call<ViolationAll> getMotorcycleViolationById(@Path("id") int id);
     @GET("quet/api/driving-license/person/{personId}")
     Call<List<DriverLicense>> getDriverLicenseByPersonId(@Path("personId") String personId);
+
+
+    @GET("quet/api/accidents/unit/{unit_id}")
+    Call<List<Accident>> getAccidentByUnitId(@Path("unit_id") String unitId);
 
 }
 

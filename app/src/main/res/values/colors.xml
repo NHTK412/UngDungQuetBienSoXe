@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="colorPrimary">#42A5F5</color>
-    <color name="colorAccent">#FF80AB</color>
+    <color name="colorPrimary" tools:ignore="DuplicateDefinition">#42A5F5</color>
+    <color name="colorAccent" tools:ignore="DuplicateDefinition">#FF80AB</color>
+
+
+
+    <!-- Status colors -->
+    <color name="status_en_route">#FF9800</color>
+    <color name="status_arrived">#4CAF50</color>
+    <color name="status_pending">#9E9E9E</color>
+
+    <!-- Chip selector colors -->
+    <color name="chip_selected">#E3F2FD</color>
+    <color name="chip_unselected">#F5F5F5</color>
 </resources>
