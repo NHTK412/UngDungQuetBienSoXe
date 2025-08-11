@@ -11,14 +11,16 @@ public class ResultLogin {
     private List<String> roles;
 
 
+    private String email;
 
-
-    public ResultLogin(String token, String type, String id, String username, List<String> roles) {
+    public ResultLogin(String token, String type, String id, String username, List<String> roles, String email) {
         this.token = token;
         this.type = type;
         this.id = id;
         this.username = username;
         this.roles = roles;
+
+        this.email = email;
     }
 
     public String getToken() {
@@ -59,5 +61,14 @@ public class ResultLogin {
 
     public void setRoles(List<String> roles) {
         this.roles = roles;
+    }
+
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

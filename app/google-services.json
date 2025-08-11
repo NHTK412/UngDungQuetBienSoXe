@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "775511489099",
+    "project_id": "fir-notification-sample-9a536",
+    "storage_bucket": "fir-notification-sample-9a536.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:775511489099:android:c971914c04f134daf66bce",
+        "android_client_info": {
+          "package_name": "com.example.doanmonhocltm"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCPYjiqJnjwCJXvvbse1ukhdukRiD2N9is"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

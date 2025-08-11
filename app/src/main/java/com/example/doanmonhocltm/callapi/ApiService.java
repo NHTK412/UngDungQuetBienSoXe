@@ -5,6 +5,7 @@ import com.example.doanmonhocltm.model.Accident;
 import com.example.doanmonhocltm.model.Car;
 import com.example.doanmonhocltm.model.CarViolationReport;
 import com.example.doanmonhocltm.model.DriverLicense;
+import com.example.doanmonhocltm.model.FcmToken;
 import com.example.doanmonhocltm.model.LoginHistory;
 import com.example.doanmonhocltm.model.LoginRequest;
 import com.example.doanmonhocltm.model.Logout;
@@ -85,14 +86,19 @@ public interface ApiService {
 
     @GET("quet/api/car-violations/{id}")
     Call<ViolationAll> getCarViolationById(@Path("id") int id);
+
     @GET("quet/api/motorcycle-violations/{id}")
     Call<ViolationAll> getMotorcycleViolationById(@Path("id") int id);
+
     @GET("quet/api/driving-license/person/{personId}")
     Call<List<DriverLicense>> getDriverLicenseByPersonId(@Path("personId") String personId);
 
 
     @GET("quet/api/accidents/unit/{unit_id}")
     Call<List<Accident>> getAccidentByUnitId(@Path("unit_id") String unitId);
+
+    @POST("quet/api/fcm-token/token")
+    Call<FcmToken> postCreateFcmToken(@Body FcmToken fcmToken);
 
 }
 

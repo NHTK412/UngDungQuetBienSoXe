@@ -1,5 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
+
+    // Thêm plugin Google Services
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -35,6 +38,7 @@ dependencies {
     implementation libs.activity
     implementation libs.constraintlayout
     implementation libs.swiperefreshlayout
+    implementation libs.firebase.messaging
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
@@ -73,6 +77,16 @@ dependencies {
 
     // Toa do
     implementation 'com.google.android.gms:play-services-location:21.0.1'
+
+    // gg map
+    implementation 'com.google.android.gms:play-services-maps:18.2.0'
+
+    // Import Firebase BoM (Bill of Materials)
+    implementation platform('com.google.firebase:firebase-bom:34.1.0')
+
+    // Thêm Firebase Analytics (hoặc các sản phẩm Firebase khác)
+    // Khi dùng BoM, không cần chỉ định phiên bản ở đây
+    implementation 'com.google.firebase:firebase-analytics'
 
 
 }

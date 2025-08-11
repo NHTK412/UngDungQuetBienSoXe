@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -39,7 +40,6 @@ public class AccidentListActivity extends AppCompatActivity implements AccidentL
     private SwipeRefreshLayout swipeRefresh;
     private LinearLayout emptyStateContainer;
     private ProgressBar progressLoading;
-    private ImageButton btnRefresh;
     private ChipGroup statusChipGroup;
     private Chip chipAll, chipEnRoute, chipArrived;
     private BottomNavigationView bottomNavigation;
@@ -57,6 +57,7 @@ public class AccidentListActivity extends AppCompatActivity implements AccidentL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_accident_list);
 
         initViews();
@@ -74,7 +75,6 @@ public class AccidentListActivity extends AppCompatActivity implements AccidentL
         swipeRefresh = findViewById(R.id.swipeRefresh);
         emptyStateContainer = findViewById(R.id.emptyStateContainer);
         progressLoading = findViewById(R.id.progressLoading);
-        btnRefresh = findViewById(R.id.btnRefresh);
         statusChipGroup = findViewById(R.id.statusChipGroup);
         chipAll = findViewById(R.id.chipAll);
         chipEnRoute = findViewById(R.id.chipEnRoute);
@@ -89,8 +89,7 @@ public class AccidentListActivity extends AppCompatActivity implements AccidentL
 
         handler = new Handler();
 
-        // Setup refresh button click
-        btnRefresh.setOnClickListener(v -> refreshData());
+
     }
 
     private void setupRecyclerView() {
