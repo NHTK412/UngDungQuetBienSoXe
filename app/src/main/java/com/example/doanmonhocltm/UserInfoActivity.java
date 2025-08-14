@@ -193,6 +193,33 @@ public class UserInfoActivity extends AppCompatActivity {
             btnExpandAccount.setRotation(isVisible ? 0 : 180);
         });
 
+
+        bottomNavigation.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int id = item.getItemId();
+
+                if (id == R.id.nav_thong_tin_user) {
+                    // Đang ở đây rồi
+                    return true;
+                } else if (id == R.id.nav_tra_bien_so) {
+                    startActivity(new Intent(UserInfoActivity.this, FindLicensePlateActivity.class));
+                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                    return true;
+                } else if (id == R.id.nav_tra_nguoi_lai) {
+                    startActivity(new Intent(UserInfoActivity.this, FindPersonActivity.class));
+                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                    return true;
+                } else if (id == R.id.nav_accidents) {
+                    startActivity(new Intent(UserInfoActivity.this, AccidentListActivity.class));
+                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                    return true;
+                }
+
+                return false;
+            }
+        });
+
         bottomNavigation.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {

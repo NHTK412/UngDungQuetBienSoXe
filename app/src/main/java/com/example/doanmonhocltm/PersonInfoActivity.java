@@ -290,27 +290,35 @@ public class PersonInfoActivity extends AppCompatActivity {
     }
 
     private void setupEventListeners() {
-        bottomNavigation.setOnItemSelectedListener(this::onNavigationItemSelected);
+        bottomNavigation.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int id = item.getItemId();
+
+                if (id == R.id.nav_tra_nguoi_lai) {
+                    // Đang ở đây rồi
+                    return true;
+                } else if (id == R.id.nav_tra_bien_so) {
+                    startActivity(new Intent(PersonInfoActivity.this, FindLicensePlateActivity.class));
+                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                    return true;
+                } else if (id == R.id.nav_thong_tin_user) {
+                    startActivity(new Intent(PersonInfoActivity.this, UserInfoActivity.class));
+                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                    return true;
+                } else if (id == R.id.nav_accidents)
+                {
+                    startActivity(new Intent(PersonInfoActivity.this, AccidentListActivity.class));
+                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                    return true;
+                }
+
+                return false;
+            }
+        });
     }
 
-    private boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-        Intent intent = null;
 
-        if (id == R.id.nav_tra_nguoi_lai) {
-            intent = new Intent(this, FindPersonActivity.class);
-        } else if (id == R.id.nav_tra_bien_so) {
-            intent = new Intent(this, FindLicensePlateActivity.class);
-        } else if (id == R.id.nav_thong_tin_user) {
-            intent = new Intent(this, UserInfoActivity.class);
-        }
 
-        if (intent != null) {
-            startActivity(intent);
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-            return true;
-        }
 
-        return false;
-    }
 }

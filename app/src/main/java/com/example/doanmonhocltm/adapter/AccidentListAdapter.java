@@ -1,7 +1,13 @@
 package com.example.doanmonhocltm.adapter;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.GradientDrawable;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +17,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.doanmonhocltm.AccidentDetailActivity;
 import com.example.doanmonhocltm.LoginActivity;
 import com.example.doanmonhocltm.callapi.ApiClient;
 import com.example.doanmonhocltm.callapi.ApiService;
@@ -20,8 +28,16 @@ import com.example.doanmonhocltm.model.Accident;
 import com.google.android.material.button.MaterialButton;
 import com.example.doanmonhocltm.R;
 
+import org.checkerframework.checker.units.qual.C;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AccidentListAdapter extends RecyclerView.Adapter<AccidentListAdapter.AccidentViewHolder> {
 
@@ -32,19 +48,23 @@ public class AccidentListAdapter extends RecyclerView.Adapter<AccidentListAdapte
     private List<Accident> accidentsFiltered;
     private OnItemClickListener listener;
 
+    private ApiService apiService;
 
     public interface OnItemClickListener {
         void onItemClick(Accident accident);
+
         void onViewDetailsClick(Accident accident);
     }
 
     public AccidentListAdapter(Context context, List<Accident> accidents) {
         this.context = context;
-        this.accidents = new ArrayList<>(accidents); // Create new list
-        this.accidentsFiltered = new ArrayList<>(accidents); // Create new list
+        this.accidents = new ArrayList<>(accidents);
+        this.accidentsFiltered = new ArrayList<>(accidents);
+
+        this.apiService = apiService = ApiClient.getClient(context).create(ApiService.class);
+
 
         Log.d(TAG, "Adapter created with " + accidents.size() + " accidents");
-        Log.d(TAG, "accidentsFiltered size: " + this.accidentsFiltered.size());
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
@@ -78,7 +98,7 @@ public class AccidentListAdapter extends RecyclerView.Adapter<AccidentListAdapte
         holder.tvDate.setText(accident.getFormattedDate());
         holder.tvAccidentType.setText(accident.getAccidentTypeText());
 
-        // Set status
+        // Set status với background color
         holder.tvStatus.setText(accident.getStatusText());
         GradientDrawable statusBackground = (GradientDrawable) holder.tvStatus.getBackground().mutate();
         statusBackground.setColor(accident.getStatusColor());
@@ -86,9 +106,6 @@ public class AccidentListAdapter extends RecyclerView.Adapter<AccidentListAdapte
         // Set accident type icon
         int iconResource = getAccidentTypeIcon(accident.getAccident_type());
         holder.ivAccidentTypeIcon.setImageResource(iconResource);
-
-        // Set placeholder image
-        holder.ivAccidentImage.setImageResource(R.drawable.ic_accident_placeholder);
 
         // Click listeners
         holder.itemView.setOnClickListener(v -> {
@@ -103,6 +120,59 @@ public class AccidentListAdapter extends RecyclerView.Adapter<AccidentListAdapte
             } else {
                 Toast.makeText(context, "Xem chi tiết tai nạn #" + accident.getAccident_id(),
                         Toast.LENGTH_SHORT).show();
+
+//                Call<ResponseBody> callImageAccident = apiService.getImageAccident(accident.getImage_url());
+//
+//                callImageAccident.enqueue(new Callback<ResponseBody>() {
+//                    @Override
+//                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+//                        try {
+//                            if (response.isSuccessful() && response.body() != null) {
+//                                Toast.makeText(context, "Xem chi tiết tai nạn #" + accident.getAccident_id(),
+//                                        Toast.LENGTH_SHORT).show();
+//
+//                                byte[] imageBytes = response.body().bytes();
+//                                Log.e(TAG, "Image bytes length: " + imageBytes.length);
+//
+//                                Bundle bundle = new Bundle();
+//                                bundle.putString("roadName", accident.getRoad_name());
+//                                bundle.putString("timestamp", accident.getFormattedTime());
+//                                bundle.putInt("accidentId", accident.getAccident_id());
+//                                bundle.putString("status", accident.getStatus());
+//                                bundle.putString("accidentType", accident.getAccident_type());
+//                                bundle.putByteArray("imageAccident", imageBytes);
+//
+//                                Intent intent = new Intent(context, AccidentDetailActivity.class);
+//                                intent.putExtra("data", bundle);
+//
+//                                // Nếu context không phải Activity, thêm flag này
+////                                if (!(context instanceof Activity)) {
+////                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+////                                }
+//
+//                                context.startActivity(intent);
+//                                Log.e(TAG, "Started AccidentDetailActivity");
+//
+//                            } else {
+//                                Log.e(TAG, "Response not successful or body is null");
+//                                Toast.makeText(context, "Không thể tải dữ liệu", Toast.LENGTH_SHORT).show();
+//                            }
+//                        } catch (IOException e) {
+//                            Log.e(TAG, "Error processing image: " + e.getMessage());
+//                            e.printStackTrace();
+//                            Toast.makeText(context, "Lỗi xử lý hình ảnh", Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//
+//
+//                    @Override
+//                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+//
+//                        Log.e("API", "Request failed: " + t.getMessage());
+//                    }
+//                });
+
+
             }
         });
 
@@ -142,14 +212,27 @@ public class AccidentListAdapter extends RecyclerView.Adapter<AccidentListAdapte
             accidentsFiltered.addAll(accidents);
         } else {
             for (Accident accident : accidents) {
-                if (accident.getStatus().equals(status)) {
+                // Map filter status to actual status values từ JSON data
+                String actualStatus = mapFilterToStatus(status);
+                if (accident.getStatus().equals(actualStatus)) {
                     accidentsFiltered.add(accident);
                 }
             }
         }
 
-        Log.d(TAG, "After filter - filtered size: " + accidentsFiltered.size());
+        Log.d(TAG, "After filter - original size: " + accidents.size() + ", filtered size: " + accidentsFiltered.size());
         notifyDataSetChanged();
+    }
+
+    private String mapFilterToStatus(String filterStatus) {
+        switch (filterStatus) {
+            case "en_route":
+                return "en_route";
+            case "arrived":
+                return "arrived";
+            default:
+                return "wait";
+        }
     }
 
     private int getAccidentTypeIcon(String accidentType) {
@@ -168,14 +251,13 @@ public class AccidentListAdapter extends RecyclerView.Adapter<AccidentListAdapte
     }
 
     public static class AccidentViewHolder extends RecyclerView.ViewHolder {
-        ImageView ivAccidentImage, ivAccidentTypeIcon;
+        ImageView ivAccidentTypeIcon;
         TextView tvAccidentId, tvRoadName, tvTimestamp, tvDate, tvAccidentType, tvStatus;
         MaterialButton btnViewDetails;
 
         public AccidentViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            ivAccidentImage = itemView.findViewById(R.id.ivAccidentImage);
             ivAccidentTypeIcon = itemView.findViewById(R.id.ivAccidentTypeIcon);
             tvAccidentId = itemView.findViewById(R.id.tvAccidentId);
             tvRoadName = itemView.findViewById(R.id.tvRoadName);

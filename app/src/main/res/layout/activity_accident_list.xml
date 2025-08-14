@@ -112,6 +112,13 @@
                         android:text="Tất cả" />
 
                     <com.google.android.material.chip.Chip
+                        android:id="@+id/chipWait"
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Chờ xác nhận" />
+
+                    <com.google.android.material.chip.Chip
                         android:id="@+id/chipEnRoute"
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"

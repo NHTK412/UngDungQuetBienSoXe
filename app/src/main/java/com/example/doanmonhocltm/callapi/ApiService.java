@@ -12,14 +12,17 @@ import com.example.doanmonhocltm.model.Logout;
 import com.example.doanmonhocltm.model.Motorcycle;
 import com.example.doanmonhocltm.model.MotorcycleViolationReport;
 import com.example.doanmonhocltm.model.Person;
+import com.example.doanmonhocltm.model.ResponderStatusRequest;
 import com.example.doanmonhocltm.model.ResultLogin;
 import com.example.doanmonhocltm.model.ScanLog;
 import com.example.doanmonhocltm.model.User;
+import com.example.doanmonhocltm.model.UserLocationRequest;
 import com.example.doanmonhocltm.model.Vehicles;
 import com.example.doanmonhocltm.model.ViolationAll;
 
 
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.ResponseBody;
 import okhttp3.MultipartBody;
@@ -29,6 +32,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 
@@ -100,5 +104,15 @@ public interface ApiService {
     @POST("quet/api/fcm-token/token")
     Call<FcmToken> postCreateFcmToken(@Body FcmToken fcmToken);
 
+    @PUT("quet/api/user-location")
+//    Call<Map<String, String>> updateUserLocation(@Body UserLocationRequest userLocationRequest);
+    Call<Void> updateUserLocation(@Body UserLocationRequest userLocationRequest);
+
+
+    @GET("/quet/api/images/accident/{filename}")
+    Call<ResponseBody> getImageAccident(@Path("filename") String filename);
+
+    @PUT("/quet/api/accidents/responder")
+    Call<Map<String, String>> updateResponderStatus(@Body ResponderStatusRequest responderStatusRequest);
 }
 

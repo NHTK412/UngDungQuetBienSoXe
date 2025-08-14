@@ -19,6 +19,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
@@ -34,6 +35,7 @@ import com.example.doanmonhocltm.model.LoginRequest;
 import com.example.doanmonhocltm.model.Person;
 import com.example.doanmonhocltm.model.ResultLogin;
 import com.example.doanmonhocltm.model.User;
+import com.example.doanmonhocltm.service.LocationService;
 import com.example.doanmonhocltm.util.DeviceUtil;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -56,17 +58,18 @@ public class LoginActivity extends AppCompatActivity {
     private ApiService apiService;
     private SessionManager sessionManager;
 
+    private static final int REQUEST_LOCATION_PERMISSIONS = 100;
+
     // Permission launcher for notification permission
-    private ActivityResultLauncher<String> requestPermissionLauncher =
-            registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
-                if (isGranted) {
-                    Log.d(TAG, "Notification permission granted");
-                    // Permission granted, continue with app flow
-                } else {
-                    Log.d(TAG, "Notification permission denied");
-                    showPermissionDeniedDialog();
-                }
-            });
+    private ActivityResultLauncher<String> requestPermissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+        if (isGranted) {
+            Log.d(TAG, "✅ Notification permission granted");
+            // Permission granted, continue with app flow
+        } else {
+            Log.d(TAG, "❌ Notification permission denied");
+            showPermissionDeniedDialog();
+        }
+    });
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -75,8 +78,9 @@ public class LoginActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
 
-        setupWindowInsets();
+        Log.d(TAG, "🚀 LoginActivity onCreate() được gọi");
 
+        setupWindowInsets();
         initializeViews();
         initializeServices();
         setupEventListeners();
@@ -87,9 +91,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void checkNotificationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
-                    != PackageManager.PERMISSION_GRANTED) {
-
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
                 // Show rationale dialog before requesting permission
                 showPermissionRationaleDialog();
             }
@@ -172,6 +174,7 @@ public class LoginActivity extends AppCompatActivity {
     private void initializeServices() {
         this.apiService = ApiClient.getClient(LoginActivity.this).create(ApiService.class);
         this.sessionManager = new SessionManager(LoginActivity.this);
+        Log.d(TAG, "✅ Services initialized");
     }
 
     private void initializeViews() {
@@ -179,6 +182,7 @@ public class LoginActivity extends AppCompatActivity {
         this.edtPassword = findViewById(R.id.edtPassword);
         this.btnLogin = findViewById(R.id.btnLogin);
         this.progressBar = findViewById(R.id.progressBar);
+//        Log.d(TAG, "✅ Views initialized");
     }
 
     private void setupEventListeners() {
@@ -194,18 +198,17 @@ public class LoginActivity extends AppCompatActivity {
 
     private boolean hasNotificationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            return ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
-                    == PackageManager.PERMISSION_GRANTED;
+            return ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED;
         } else {
             return NotificationManagerCompat.from(this).areNotificationsEnabled();
         }
     }
 
     private void handleLoginButtonClick() {
-        String username = edtUsername.getText().toString();
-        String password = edtPassword.getText().toString();
-        Log.e("username", username);
-        Log.e("password", password);
+        String username = edtUsername.getText().toString().trim();
+        String password = edtPassword.getText().toString().trim();
+
+        Log.d(TAG, "🔐 Đang thử đăng nhập với username: " + username);
 
         if (!validateLoginInput(username, password)) {
             return;
@@ -231,14 +234,17 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResultLogin> call, Response<ResultLogin> response) {
                 if (response.isSuccessful() && response.body() != null) {
+                    Log.d(TAG, "✅ Đăng nhập API thành công");
                     handleSuccessfulLogin(response.body());
                 } else {
+                    Log.e(TAG, "❌ Đăng nhập thất bại - Response code: " + response.code());
                     handleFailedLogin(response.code());
                 }
             }
 
             @Override
             public void onFailure(Call<ResultLogin> call, Throwable t) {
+                Log.e(TAG, "❌ Login API failure: " + t.getMessage());
                 handleServerError();
             }
         });
@@ -248,6 +254,8 @@ public class LoginActivity extends AppCompatActivity {
         String token = result.getToken();
         String username = result.getUsername();
         String userId = result.getId();
+
+        Log.d(TAG, "📄 Login result - UserID: " + userId + ", Username: " + username);
 
         sessionManager.saveToken(token);
         fetchUserDetails(userId, token, username);
@@ -262,6 +270,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (response.isSuccessful() && response.body() != null) {
                     String fullName = response.body().getFullName();
                     if (fullName != null) {
+                        Log.d(TAG, "✅ Lấy thông tin user thành công: " + fullName);
                         fetchUserEmail(userId, token, username, fullName);
                     } else {
                         showLoading(false);
@@ -275,6 +284,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Person> call, Throwable t) {
+                Log.e(TAG, "❌ Fetch user details failure: " + t.getMessage());
                 handleServerError();
             }
         });
@@ -289,6 +299,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (response.isSuccessful() && response.body() != null) {
                     String email = response.body().getEmail();
                     if (email != null) {
+                        Log.d(TAG, "✅ Lấy email thành công: " + email);
                         fetchFacePath(userId, token, username, fullName, email);
                     } else {
                         showLoading(false);
@@ -302,6 +313,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
+                Log.e(TAG, "❌ Fetch email failure: " + t.getMessage());
                 handleServerError();
             }
         });
@@ -310,12 +322,12 @@ public class LoginActivity extends AppCompatActivity {
     private void fetchFacePath(String userId, String token, String username, String fullName, String email) {
         Call<Person> facePathCall = apiService.getPersonById(userId);
         facePathCall.enqueue(new Callback<Person>() {
-
             @Override
             public void onResponse(Call<Person> call, Response<Person> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     String facePath = response.body().getFacePath();
                     if (facePath != null) {
+                        Log.d(TAG, "✅ Lấy facePath thành công: " + facePath);
                         fetchUserImage(userId, token, username, fullName, email, facePath);
                     } else {
                         showLoading(false);
@@ -329,6 +341,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Person> call, Throwable t) {
+                Log.e(TAG, "❌ Fetch facePath failure: " + t.getMessage());
                 handleServerError();
             }
         });
@@ -345,6 +358,7 @@ public class LoginActivity extends AppCompatActivity {
                         byte[] imageBytes = response.body().bytes();
                         Bitmap bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
 
+                        Log.d(TAG, "✅ Lấy ảnh user thành công");
                         saveUserSession(userId, token, username, fullName, email, imageBytes);
                         logLoginHistory(userId);
                     } catch (IOException e) {
@@ -366,25 +380,21 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void saveUserSession(String userId, String token, String username, String fullName,
-                                 String email, byte[] imageBytes) {
+    private void saveUserSession(String userId, String token, String username, String fullName, String email, byte[] imageBytes) {
         sessionManager.saveUserSession(token, userId, username, fullName, email);
         sessionManager.saveImageToPrefs(imageBytes);
+        Log.d(TAG, "✅ Session đã được lưu cho userId: " + userId);
     }
 
     private void logLoginHistory(String userId) {
-        LoginHistory loginHistory = new LoginHistory(
-                userId,
-                DeviceUtil.getIPAddress(true),
-                DeviceUtil.getDeviceInfo(),
-                "SUCCESS"
-        );
+        LoginHistory loginHistory = new LoginHistory(userId, DeviceUtil.getIPAddress(true), DeviceUtil.getDeviceInfo(), "SUCCESS");
 
         Call<LoginHistory> loginHistoryCall = apiService.createLoginHistory(loginHistory);
         loginHistoryCall.enqueue(new Callback<LoginHistory>() {
             @Override
             public void onResponse(Call<LoginHistory> call, Response<LoginHistory> response) {
                 if (response.isSuccessful()) {
+                    Log.d(TAG, "✅ Login history đã được ghi");
                     navigateToMainScreen();
                 } else {
                     showLoading(false);
@@ -394,6 +404,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<LoginHistory> call, Throwable t) {
+                Log.e(TAG, "❌ Login history failure: " + t.getMessage());
                 handleServerError();
             }
         });
@@ -403,54 +414,158 @@ public class LoginActivity extends AppCompatActivity {
         showLoading(false);
         Toast.makeText(LoginActivity.this, "Đăng Nhập Thành Công", Toast.LENGTH_SHORT).show();
 
-        FirebaseMessaging.getInstance().getToken()
-                .addOnCompleteListener(task -> {
-                    if (!task.isSuccessful()) {
-                        Log.w(TAG, "Fetching FCM registration token failed", task.getException());
-                        // Vẫn chuyển màn hình dù lấy token thất bại
-                        proceedToMainActivity();
-                        return;
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
+            if (!task.isSuccessful()) {
+                Log.w(TAG, "⚠️ Fetching FCM registration token failed", task.getException());
+                // Vẫn chuyển màn hình dù lấy token thất bại
+                proceedToMainActivity();
+                return;
+            }
+
+            String token = task.getResult();
+            Log.d(TAG, "🔔 FCM Token: " + token);
+
+            String userId = sessionManager.getUserId();
+
+            // Gửi token về server Spring Boot để lưu
+            Call<FcmToken> fcmTokenCall = apiService.postCreateFcmToken(new FcmToken(token, userId));
+
+            fcmTokenCall.enqueue(new Callback<FcmToken>() {
+                @Override
+                public void onResponse(Call<FcmToken> call, Response<FcmToken> response) {
+                    if (response.isSuccessful()) {
+                        Log.d(TAG, "✅ FCM token đã được gửi thành công");
+                    } else {
+                        Log.w(TAG, "⚠️ FCM token gửi thất bại: " + response.code());
                     }
+                    // Chuyển màn hình bất kể response có thành công hay không
+                    proceedToMainActivity();
+                }
 
-                    String token = task.getResult();
-                    Log.d(TAG, "FCM Token: " + token);
-
-                    String userId = sessionManager.getUserId();
-
-                    // Gửi token về server Spring Boot để lưu
-                    Call<FcmToken> fcmTokenCall = apiService.postCreateFcmToken(new FcmToken(token, userId));
-
-                    fcmTokenCall.enqueue(new Callback<FcmToken>() {
-                        @Override
-                        public void onResponse(Call<FcmToken> call, Response<FcmToken> response) {
-                            // Chuyển màn hình bất kể response có thành công hay không
-                            proceedToMainActivity();
-                        }
-
-                        @Override
-                        public void onFailure(Call<FcmToken> call, Throwable t) {
-                            // Vẫn chuyển màn hình dù gửi FCM token thất bại
-                            Log.e(TAG, "Failed to send FCM token: " + t.getMessage());
-                            proceedToMainActivity();
-                        }
-                    });
-                });
+                @Override
+                public void onFailure(Call<FcmToken> call, Throwable t) {
+                    // Vẫn chuyển màn hình dù gửi FCM token thất bại
+                    Log.e(TAG, "❌ Failed to send FCM token: " + t.getMessage());
+                    proceedToMainActivity();
+                }
+            });
+        });
     }
 
     private void proceedToMainActivity() {
+        Log.d(TAG, "🎯 Đang chuyển đến MainActivity");
+
+        // Chuyển đến màn hình chính trước
         Intent intent = new Intent(LoginActivity.this, FindLicensePlateActivity.class);
         startActivity(intent);
-        finish(); // Đóng LoginActivity khi đã đăng nhập thành công
+
+        // Kiểm tra và yêu cầu quyền location
+        if (!hasLocationPermission()) {
+            Log.w(TAG, "⚠️ Chưa có quyền location, đang yêu cầu...");
+            requestLocationPermission();
+        } else {
+            // Có đủ quyền rồi, khởi động service ngay
+            startLocationService();
+        }
+
+        finish(); // Đóng LoginActivity
+    }
+
+    private void startLocationService() {
+        Log.d(TAG, "🎯 Đang khởi động LocationService");
+        Intent serviceIntent = new Intent(this, LocationService.class);
+
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                startForegroundService(serviceIntent);
+                Log.d(TAG, "✅ LocationService đã được khởi động bằng startForegroundService()");
+            } else {
+                startService(serviceIntent);
+                Log.d(TAG, "✅ LocationService đã được khởi động bằng startService()");
+            }
+        } catch (SecurityException e) {
+            Log.e(TAG, "❌ SecurityException khi khởi động LocationService: " + e.getMessage());
+        } catch (Exception e) {
+            Log.e(TAG, "❌ Lỗi khi khởi động LocationService: " + e.getMessage());
+        }
+    }
+
+    private void requestLocationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            // Android 10 trở lên: cần cả background location nếu muốn chạy khi app ở background
+            Log.d(TAG, "📍 Yêu cầu quyền location cho Android 10+");
+            ActivityCompat.requestPermissions(this, new String[]{
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.ACCESS_BACKGROUND_LOCATION
+            }, REQUEST_LOCATION_PERMISSIONS);
+        } else {
+            Log.d(TAG, "📍 Yêu cầu quyền location cho Android < 10");
+            ActivityCompat.requestPermissions(this, new String[]{
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+            }, REQUEST_LOCATION_PERMISSIONS);
+        }
+    }
+
+    private boolean hasLocationPermission() {
+        boolean fineLocation = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+        boolean coarseLocation = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+        boolean backgroundLocation = Build.VERSION.SDK_INT < Build.VERSION_CODES.Q ||
+                ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED;
+
+        Log.d(TAG, "📍 Location permissions - Fine: " + (fineLocation ? "✅" : "❌") +
+                ", Coarse: " + (coarseLocation ? "✅" : "❌") +
+                ", Background: " + (backgroundLocation ? "✅" : "❌"));
+
+        return fineLocation && coarseLocation && backgroundLocation;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == REQUEST_LOCATION_PERMISSIONS) {
+            boolean allGranted = true;
+            for (int i = 0; i < permissions.length; i++) {
+                boolean granted = grantResults[i] == PackageManager.PERMISSION_GRANTED;
+                Log.d(TAG, "📍 Permission " + permissions[i] + ": " + (granted ? "✅ Granted" : "❌ Denied"));
+                if (!granted) {
+                    allGranted = false;
+                }
+            }
+
+            if (allGranted) {
+                Log.d(TAG, "✅ Tất cả quyền location đã được cấp, khởi động LocationService");
+                startLocationService();
+            } else {
+                Log.w(TAG, "⚠️ Một số quyền location bị từ chối");
+                showLocationPermissionDialog();
+            }
+        }
+    }
+
+    private void showLocationPermissionDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle("Cấp quyền vị trí")
+                .setMessage("Ứng dụng cần quyền truy cập vị trí để hoạt động đúng cách. Bạn có muốn cấp quyền không?")
+                .setPositiveButton("Thử lại", (dialog, which) -> requestLocationPermission())
+                .setNegativeButton("Bỏ qua", (dialog, which) -> {
+                    Log.w(TAG, "⚠️ User từ chối cấp quyền location");
+                    // Vẫn có thể tiếp tục sử dụng app nhưng không có location tracking
+                })
+                .show();
     }
 
     private void handleFailedLogin(int responseCode) {
         showLoading(false);
-        System.out.println("❌ Đăng nhập thất bại: " + responseCode);
+        Log.e(TAG, "❌ Đăng nhập thất bại: " + responseCode);
         Toast.makeText(LoginActivity.this, "Tên Đăng Nhập Hoặc Mật Khẩu Không Đúng", Toast.LENGTH_SHORT).show();
     }
 
     private void handleServerError() {
         showLoading(false);
+        Log.e(TAG, "❌ Server error occurred");
         Toast.makeText(LoginActivity.this, "Server Đang Gặp Lỗi", Toast.LENGTH_SHORT).show();
     }
 
@@ -459,10 +574,12 @@ public class LoginActivity extends AppCompatActivity {
             progressBar.setVisibility(View.VISIBLE);
             btnLogin.setEnabled(false);
             btnLogin.setText("Đang đăng nhập...");
+            Log.d(TAG, "⏳ Hiển thị loading");
         } else {
             progressBar.setVisibility(View.GONE);
             btnLogin.setEnabled(true);
             btnLogin.setText("Đăng nhập");
+            Log.d(TAG, "✅ Ẩn loading");
         }
     }
 }

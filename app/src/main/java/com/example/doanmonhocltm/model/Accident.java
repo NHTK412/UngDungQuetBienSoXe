@@ -1,8 +1,13 @@
 package com.example.doanmonhocltm.model;
 
 import com.google.gson.annotations.SerializedName;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import android.graphics.Color;
 
 public class Accident {
+
     @SerializedName("accidentId")
     private int accident_id;
 
@@ -21,11 +26,9 @@ public class Accident {
     @SerializedName("status")
     private String status;
 
-    // Default constructor (required for Gson)
-    public Accident() {
-    }
-
     // Constructor
+    public Accident() {}
+
     public Accident(int accident_id, String road_name, String timestamp,
                     String accident_type, String image_url, String status) {
         this.accident_id = accident_id;
@@ -36,126 +39,98 @@ public class Accident {
         this.status = status;
     }
 
-    // Getters
+    // Getters and Setters
     public int getAccident_id() {
         return accident_id;
+    }
+
+    public void setAccident_id(int accident_id) {
+        this.accident_id = accident_id;
     }
 
     public String getRoad_name() {
         return road_name;
     }
 
-    public String getTimestamp() {
-        return timestamp;
-    }
-
-    public String getAccident_type() {
-        return accident_type;
-    }
-
-    public String getImage_url() {
-        return image_url;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    // Setters
-    public void setAccident_id(int accident_id) {
-        this.accident_id = accident_id;
-    }
-
     public void setRoad_name(String road_name) {
         this.road_name = road_name;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
     }
 
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
 
+    public String getAccident_type() {
+        return accident_type;
+    }
+
     public void setAccident_type(String accident_type) {
         this.accident_type = accident_type;
+    }
+
+    public String getImage_url() {
+        return image_url;
     }
 
     public void setImage_url(String image_url) {
         this.image_url = image_url;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
     public void setStatus(String status) {
         this.status = status;
     }
 
-    // Helper methods with null checks
-    public String getFormattedTime() {
-        // Extract time from timestamp "2025-08-07T23:23:46"
-        if (timestamp != null && timestamp.contains("T")) {
-            String timePart = timestamp.split("T")[1];
-            if (timePart.length() >= 5) {
-                return timePart.substring(0, 5); // Get HH:MM
-            }
-        }
-        return "00:00";
-    }
-
+    // Helper methods để format dữ liệu hiển thị
     public String getFormattedDate() {
-        // Extract date from timestamp "2025-08-07T23:23:46"
-        if (timestamp != null && timestamp.contains("T")) {
-            String datePart = timestamp.split("T")[0];
-            String[] parts = datePart.split("-");
-            if (parts.length == 3) {
-                return parts[2] + "/" + parts[1] + "/" + parts[0]; // DD/MM/YYYY
+        try {
+            SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault());
+            SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+
+            // Xử lý timestamp có thể có microseconds
+            String cleanTimestamp = timestamp;
+            if (timestamp.contains(".")) {
+                cleanTimestamp = timestamp.substring(0, timestamp.indexOf("."));
             }
-        }
-        return "01/01/2025";
-    }
 
-    public String getStatusText() {
-        if (status == null) {
-            return "Không xác định";
-        }
-
-        switch (status.toLowerCase()) {
-            case "wait":
-                return "Chờ xử lý";
-            case "en_route":
-                return "Đang đến";
-            case "arrived":
-                return "Đã đến";
-            case "pending":
-                return "Chờ xử lý";
-            default:
-                return "Không xác định";
+            Date date = inputFormat.parse(cleanTimestamp);
+            return outputFormat.format(date);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "N/A";
         }
     }
 
-    public int getStatusColor() {
-        if (status == null) {
-            return 0xFF757575; // Dark grey
-        }
+    public String getFormattedTime() {
+        try {
+            SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault());
+            SimpleDateFormat outputFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
 
-        switch (status.toLowerCase()) {
-            case "wait":
-                return 0xFFFF9800; // Orange
-            case "en_route":
-                return 0xFFFF9800; // Orange
-            case "arrived":
-                return 0xFF4CAF50; // Green
-            case "pending":
-                return 0xFF9E9E9E; // Grey
-            default:
-                return 0xFF757575; // Dark grey
+            // Xử lý timestamp có thể có microseconds
+            String cleanTimestamp = timestamp;
+            if (timestamp.contains(".")) {
+                cleanTimestamp = timestamp.substring(0, timestamp.indexOf("."));
+            }
+
+            Date date = inputFormat.parse(cleanTimestamp);
+            return outputFormat.format(date);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "N/A";
         }
     }
 
     public String getAccidentTypeText() {
-        if (accident_type == null) {
-            return "Tai nạn khác";
-        }
-
-        switch (accident_type.toLowerCase()) {
+        switch (accident_type) {
             case "car_crash":
-                return "Tai nạn xe ô tô";
+                return "Tai nạn xe hơi";
             case "truck_rollover":
                 return "Xe tải lật";
             case "motorcycle_accident":
@@ -165,5 +140,49 @@ public class Accident {
             default:
                 return "Tai nạn khác";
         }
+    }
+
+    public String getStatusText() {
+        switch (status) {
+            case "wait":
+                return "Đang chờ";
+            case "en_route":
+                return "Đang đến";
+            case "arrived":
+                return "Đã đến";
+            case "resolved":
+                return "Đã xử lý";
+            case "completed":
+                return "Hoàn thành";
+            default:
+                return "Không xác định";
+        }
+    }
+
+    public int getStatusColor() {
+        switch (status) {
+            case "wait":
+                return Color.parseColor("#FF9800"); // Orange - cho status "wait" từ JSON
+            case "en_route":
+                return Color.parseColor("#2196F3"); // Blue
+            case "arrived":
+                return Color.parseColor("#4CAF50"); // Green
+            case "resolved":
+            case "completed":
+                return Color.parseColor("#9E9E9E"); // Grey
+            default:
+                return Color.parseColor("#757575"); // Dark Grey
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Accident{" +
+                "accident_id=" + accident_id +
+                ", road_name='" + road_name + '\'' +
+                ", timestamp='" + timestamp + '\'' +
+                ", accident_type='" + accident_type + '\'' +
+                ", status='" + status + '\'' +
+                '}';
     }
 }

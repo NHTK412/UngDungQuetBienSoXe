@@ -103,14 +103,17 @@ public class FindPersonActivity extends AppCompatActivity {
                 if (id == R.id.nav_tra_nguoi_lai) {
                     // Đang ở đây rồi
                     return true;
-
                 } else if (id == R.id.nav_tra_bien_so) {
                     startActivity(new Intent(FindPersonActivity.this, FindLicensePlateActivity.class));
                     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                     return true;
-
                 } else if (id == R.id.nav_thong_tin_user) {
                     startActivity(new Intent(FindPersonActivity.this, UserInfoActivity.class));
+                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                    return true;
+                } else if (id == R.id.nav_accidents)
+                {
+                    startActivity(new Intent(FindPersonActivity.this, AccidentListActivity.class));
                     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                     return true;
                 }
@@ -118,6 +121,8 @@ public class FindPersonActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+
 
         btnLookupCitizen.setOnClickListener(new View.OnClickListener() {
             @Override

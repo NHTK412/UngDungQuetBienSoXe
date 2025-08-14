@@ -12,7 +12,7 @@
 
     <item
         android:id="@+id/nav_accidents"
-        android:icon="@android:drawable/ic_menu_recent_history"
+        android:icon="@drawable/ic_car"
         android:title="Tai Nạn" />
 
     <item

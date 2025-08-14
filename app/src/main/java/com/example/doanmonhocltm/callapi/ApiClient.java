@@ -14,8 +14,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class ApiClient {
-    private static String BASE_URL = "http://10.0.2.2:8087/"; // Dành cho giả lập Android
-//    private static String BASE_URL = "http://192.168.1.6:8087/"; // Dành IP SERVER
+    //    private static String BASE_URL = "http://10.0.2.2:8087/"; // Dành cho giả lập Android
+    private static String BASE_URL = "http://192.168.100.92:8087/"; // Dành IP SERVER
 
     private static Retrofit retrofit;
 
