@@ -1,6 +1,7 @@
 package com.example.doanmonhocltm;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -23,7 +25,10 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.doanmonhocltm.callapi.ApiClient;
 import com.example.doanmonhocltm.callapi.ApiService;
 import com.example.doanmonhocltm.callapi.SessionManager;
+import com.example.doanmonhocltm.model.LocationResponse;
 import com.example.doanmonhocltm.model.ResponderStatusRequest;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
@@ -36,6 +41,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import android.content.Intent;
+import android.net.Uri;
+import android.Manifest;
 
 public class AccidentDetailActivity extends AppCompatActivity {
 
@@ -139,9 +148,7 @@ public class AccidentDetailActivity extends AppCompatActivity {
             responderStatusRequest.setUnitId(sessionManager.getUserId());
             if (("wait").equals(statusCode)) {
                 responderStatusRequest.setStatus("en_route");
-            }
-            else if (("en_route").equals(statusCode))
-            {
+            } else if (("en_route").equals(statusCode)) {
                 responderStatusRequest.setStatus("arrived");
             }
 
@@ -154,59 +161,57 @@ public class AccidentDetailActivity extends AppCompatActivity {
                     if (("wait").equals(statusCode)) {
 
                         statusCode = "en_route";
-                    }
-                    else if (("en_route").equals(statusCode))
-                    {
+                    } else if (("en_route").equals(statusCode)) {
                         statusCode = "arrived";
                     }
-                    int color ;
+                    int color;
                     switch (statusCode) {
                         case "wait":
-                            color =  Color.parseColor("#FF9800"); // Orange - cho status "wait" từ JSON
+                            color = Color.parseColor("#FF9800"); // Orange - cho status "wait" từ JSON
                             break;
 
                         case "en_route":
-                            color =  Color.parseColor("#2196F3"); // Blue
+                            color = Color.parseColor("#2196F3"); // Blue
                             break;
 
                         case "arrived":
-                            color =  Color.parseColor("#4CAF50"); // Green
+                            color = Color.parseColor("#4CAF50"); // Green
                             break;
 
                         case "resolved":
 
                         case "completed":
-                            color =  Color.parseColor("#9E9E9E"); // Grey
+                            color = Color.parseColor("#9E9E9E"); // Grey
                             break;
 
                         default:
-                            color =  Color.parseColor("#757575"); // Dark Grey
+                            color = Color.parseColor("#757575"); // Dark Grey
                             break;
 
                     }
                     String statusText;
                     switch (statusCode) {
                         case "wait":
-                            statusText =  "Đang chờ";
+                            statusText = "Đang chờ";
                             break;
                         case "en_route":
-                            statusText =  "Đang đến";
+                            statusText = "Đang đến";
                             break;
 
                         case "arrived":
-                            statusText =  "Đã đến";
+                            statusText = "Đã đến";
                             break;
 
                         case "resolved":
-                            statusText =  "Đã xử lý";
+                            statusText = "Đã xử lý";
                             break;
 
                         case "completed":
-                            statusText =  "Hoàn thành";
+                            statusText = "Hoàn thành";
                             break;
 
                         default:
-                            statusText =  "Không xác định";
+                            statusText = "Không xác định";
                             break;
 
                     }
@@ -225,10 +230,6 @@ public class AccidentDetailActivity extends AppCompatActivity {
             });
 
 
-
-
-
-
         });
 
         // Nút Navigation (chỉ hiển thị khi en_route)
@@ -238,6 +239,75 @@ public class AccidentDetailActivity extends AppCompatActivity {
 //            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
 //            intent.setPackage("com.google.android.apps.maps");
 //            startActivity(intent);
+
+
+            FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(AccidentDetailActivity.this);
+
+// Kiểm tra quyền
+            if (ActivityCompat.checkSelfPermission(AccidentDetailActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                    && ActivityCompat.checkSelfPermission(AccidentDetailActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: request permissions
+                return;
+            }
+
+            fusedLocationClient.getLastLocation()
+                    .addOnSuccessListener(location -> {
+                        if (location != null) {
+                            double latitude = location.getLatitude();
+                            double longitude = location.getLongitude();
+
+                            Log.d("Location", "Lat: " + latitude + ", Lng: " + longitude);
+
+                            // Truyền vào API Retrofit
+                            Call<LocationResponse> callLocation = apiService.getLocationCamere(accidentId, latitude, longitude, sessionManager.getUserId());
+                            // gọi enqueue như bình thường
+
+                            callLocation.enqueue(new Callback<LocationResponse>() {
+                                @Override
+                                public void onResponse(Call<LocationResponse> call, Response<LocationResponse> response) {
+                                    Intent intentMap = new Intent(AccidentDetailActivity.this, AccidentMapActivity.class);
+                                    LocationResponse result = response.body();
+
+// Sử dụng intentMap thay vì intent
+                                    intentMap.putExtra("userLatitude", latitude);
+                                    intentMap.putExtra("userLongitude", longitude);
+                                    intentMap.putExtra("accidentLatitude", result.getLatitude());
+                                    intentMap.putExtra("accidentLongitude", result.getLongitude());
+                                    intentMap.putExtra("distance", result.getDistanceWithUnit());
+                                    intentMap.putExtra("currentTime", result.getFormattedDate() + " " + result.getFormattedTime());
+
+                                    startActivity(intentMap);
+                                }
+
+                                @Override
+                                public void onFailure(Call<LocationResponse> call, Throwable t) {
+
+                                }
+                            });
+                        } else {
+                            Log.e("Location", "Không lấy được vị trí hiện tại");
+                        }
+                    });
+
+
+//            Call<LocationResponse> callLocation = apiService.getLocationCamere(accidentId, )
+//
+//            Intent intentMap = new Intent(this, AccidentMapActivity.class);
+
+
+            // === CÁC THÔNG TIN BẮT BUỘC ===
+
+            // 1. Vị trí của người dùng hiện tại (để làm điểm xuất phát chỉ đường)
+//            intent.putExtra("userLatitude", 10.7769);      // Vĩ độ người dùng (double)
+//            intent.putExtra("userLongitude", 106.7009);    // Kinh độ người dùng (double)
+//
+//            // 2. Vị trí tai nạn (để hiển thị trên bản đồ và làm điểm đến)
+//            intent.putExtra("accidentLatitude", 10.7800);  // Vĩ độ tai nạn (double)
+//            intent.putExtra("accidentLongitude", 106.7100); // Kinh độ tai nạn (double)
+
+//            startActivity(intentMap);
+
+
         });
 
         // Nút Cancel

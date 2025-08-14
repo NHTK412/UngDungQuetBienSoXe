@@ -6,6 +6,7 @@ import com.example.doanmonhocltm.model.Car;
 import com.example.doanmonhocltm.model.CarViolationReport;
 import com.example.doanmonhocltm.model.DriverLicense;
 import com.example.doanmonhocltm.model.FcmToken;
+import com.example.doanmonhocltm.model.LocationResponse;
 import com.example.doanmonhocltm.model.LoginHistory;
 import com.example.doanmonhocltm.model.LoginRequest;
 import com.example.doanmonhocltm.model.Logout;
@@ -35,6 +36,7 @@ import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface ApiService {
 
@@ -114,5 +116,14 @@ public interface ApiService {
 
     @PUT("/quet/api/accidents/responder")
     Call<Map<String, String>> updateResponderStatus(@Body ResponderStatusRequest responderStatusRequest);
+
+
+    @GET("/quet/api/camera/{accidentId}")
+    Call<LocationResponse> getLocationCamere(@Path("accidentId") int accidentId,
+                                             @Query("lat") double lat,
+                                             @Query("lng") double lng,
+                                             @Query("unitId") String unitId);
+
+
 }
 

@@ -18,6 +18,9 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
+
+
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -29,11 +32,16 @@
         android:theme="@style/Theme.DoAnMonHocLTM"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyB4S_cXtvlQU0k7Mva3QP92vzDYTVvMKQU" />
+
         <activity
             android:name=".AccidentDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".AccidentMapAcitivity"
+            android:name=".AccidentMapActivity"
             android:exported="false" />
         <activity
             android:name=".ViolationDetailActivity"
@@ -81,6 +89,7 @@
             android:name=".AccidentListActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustPan" />
+
 
         <service
             android:name=".service.MyFirebaseMessagingService"
