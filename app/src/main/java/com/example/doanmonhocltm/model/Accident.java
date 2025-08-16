@@ -154,6 +154,8 @@ public class Accident {
                 return "Đã xử lý";
             case "completed":
                 return "Hoàn thành";
+            case "cancelled":
+                return "Đã hủy";
             default:
                 return "Không xác định";
         }
@@ -170,6 +172,8 @@ public class Accident {
             case "resolved":
             case "completed":
                 return Color.parseColor("#9E9E9E"); // Grey
+            case "cancelled":
+                return Color.parseColor("#757575"); // Dark Grey
             default:
                 return Color.parseColor("#757575"); // Dark Grey
         }

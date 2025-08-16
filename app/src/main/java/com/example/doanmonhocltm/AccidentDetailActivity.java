@@ -70,7 +70,6 @@ public class AccidentDetailActivity extends AppCompatActivity {
 
     private ApiService apiService;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,7 +80,6 @@ public class AccidentDetailActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
 
         this.apiService = ApiClient.getClient(AccidentDetailActivity.this).create(ApiService.class);
 
@@ -104,11 +102,9 @@ public class AccidentDetailActivity extends AppCompatActivity {
         btnNavigation = findViewById(R.id.btnNavigation);
         btnCancel = findViewById(R.id.btnCancel);
 
-
         btnPrimaryAction.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#4CAF50")));
         btnNavigation.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#2196F3")));
         btnCancel.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#F44336")));
-
 
         Intent intent = getIntent();
 
@@ -129,20 +125,8 @@ public class AccidentDetailActivity extends AppCompatActivity {
         Bitmap bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
         this.ivAccidentImage.setImageBitmap(bitmap);
 
-
         // Nút Primary Action
         btnPrimaryAction.setOnClickListener(v -> {
-//            // Thay đổi trạng thái của tai nạn
-//            updateStatusUI("en_route"); // ví dụ
-//            Toast.makeText(this, "Đang đến hiện tại", Toast.LENGTH_SHORT).show();
-//
-//            // Hiển thị nút Navigation nếu status là en_route
-//            btnNavigation.setVisibility(View.VISIBLE);
-//
-//            // Có thể đổi text của nút Primary nếu muốn
-//            btnPrimaryAction.setText("Đã đến");
-
-
             ResponderStatusRequest responderStatusRequest = new ResponderStatusRequest();
             responderStatusRequest.setAccidentId(bundle.getInt("accidentId"));
             responderStatusRequest.setUnitId(sessionManager.getUserId());
@@ -159,7 +143,6 @@ public class AccidentDetailActivity extends AppCompatActivity {
                 public void onResponse(Call<Map<String, String>> call, Response<Map<String, String>> response) {
                     Map<String, String> result = response.body();
                     if (("wait").equals(statusCode)) {
-
                         statusCode = "en_route";
                     } else if (("en_route").equals(statusCode)) {
                         statusCode = "arrived";
@@ -187,7 +170,6 @@ public class AccidentDetailActivity extends AppCompatActivity {
                         default:
                             color = Color.parseColor("#757575"); // Dark Grey
                             break;
-
                     }
                     String statusText;
                     switch (statusCode) {
@@ -209,13 +191,13 @@ public class AccidentDetailActivity extends AppCompatActivity {
                         case "completed":
                             statusText = "Hoàn thành";
                             break;
-
+                        case "cancelled":
+                            statusText = "Đã hủy";
+                            break;
                         default:
                             statusText = "Không xác định";
                             break;
-
                     }
-
 
                     chipStatus.setText(statusText);
                     chipStatus.setChipBackgroundColor(ColorStateList.valueOf(color));
@@ -225,97 +207,96 @@ public class AccidentDetailActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<Map<String, String>> call, Throwable t) {
-
+                    Toast.makeText(AccidentDetailActivity.this, "Lỗi khi cập nhật trạng thái", Toast.LENGTH_SHORT).show();
                 }
             });
-
-
         });
 
         // Nút Navigation (chỉ hiển thị khi en_route)
         btnNavigation.setOnClickListener(v -> {
-            // Ví dụ mở Google Maps dẫn đường
-//            String uri = "google.navigation:q=" + latitude + "," + longitude;
-//            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-//            intent.setPackage("com.google.android.apps.maps");
-//            startActivity(intent);
-
-
             FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(AccidentDetailActivity.this);
 
-// Kiểm tra quyền
+            // Kiểm tra quyền
             if (ActivityCompat.checkSelfPermission(AccidentDetailActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                     && ActivityCompat.checkSelfPermission(AccidentDetailActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 // TODO: request permissions
                 return;
             }
 
-            fusedLocationClient.getLastLocation()
-                    .addOnSuccessListener(location -> {
-                        if (location != null) {
-                            double latitude = location.getLatitude();
-                            double longitude = location.getLongitude();
+            fusedLocationClient.getLastLocation().addOnSuccessListener(location -> {
+                if (location != null) {
+                    double latitude = location.getLatitude();
+                    double longitude = location.getLongitude();
 
-                            Log.d("Location", "Lat: " + latitude + ", Lng: " + longitude);
+                    Log.d("Location", "Lat: " + latitude + ", Lng: " + longitude);
 
-                            // Truyền vào API Retrofit
-                            Call<LocationResponse> callLocation = apiService.getLocationCamere(accidentId, latitude, longitude, sessionManager.getUserId());
-                            // gọi enqueue như bình thường
+                    // Truyền vào API Retrofit
+                    Call<LocationResponse> callLocation = apiService.getLocationCamere(accidentId, latitude, longitude, sessionManager.getUserId());
 
-                            callLocation.enqueue(new Callback<LocationResponse>() {
-                                @Override
-                                public void onResponse(Call<LocationResponse> call, Response<LocationResponse> response) {
-                                    Intent intentMap = new Intent(AccidentDetailActivity.this, AccidentMapActivity.class);
-                                    LocationResponse result = response.body();
+                    callLocation.enqueue(new Callback<LocationResponse>() {
+                        @Override
+                        public void onResponse(Call<LocationResponse> call, Response<LocationResponse> response) {
+                            Intent intentMap = new Intent(AccidentDetailActivity.this, AccidentMapActivity.class);
+                            LocationResponse result = response.body();
 
-// Sử dụng intentMap thay vì intent
-                                    intentMap.putExtra("userLatitude", latitude);
-                                    intentMap.putExtra("userLongitude", longitude);
-                                    intentMap.putExtra("accidentLatitude", result.getLatitude());
-                                    intentMap.putExtra("accidentLongitude", result.getLongitude());
-                                    intentMap.putExtra("distance", result.getDistanceWithUnit());
-                                    intentMap.putExtra("currentTime", result.getFormattedDate() + " " + result.getFormattedTime());
+                            // Sử dụng intentMap thay vì intent
+                            intentMap.putExtra("userLatitude", latitude);
+                            intentMap.putExtra("userLongitude", longitude);
+                            intentMap.putExtra("accidentLatitude", result.getLatitude());
+                            intentMap.putExtra("accidentLongitude", result.getLongitude());
+                            intentMap.putExtra("distance", result.getDistanceWithUnit());
+                            intentMap.putExtra("currentTime", result.getFormattedDate() + " " + result.getFormattedTime());
 
-                                    startActivity(intentMap);
-                                }
+                            startActivity(intentMap);
+                        }
 
-                                @Override
-                                public void onFailure(Call<LocationResponse> call, Throwable t) {
-
-                                }
-                            });
-                        } else {
-                            Log.e("Location", "Không lấy được vị trí hiện tại");
+                        @Override
+                        public void onFailure(Call<LocationResponse> call, Throwable t) {
+                            Toast.makeText(AccidentDetailActivity.this, "Lỗi khi lấy thông tin vị trí", Toast.LENGTH_SHORT).show();
                         }
                     });
-
-
-//            Call<LocationResponse> callLocation = apiService.getLocationCamere(accidentId, )
-//
-//            Intent intentMap = new Intent(this, AccidentMapActivity.class);
-
-
-            // === CÁC THÔNG TIN BẮT BUỘC ===
-
-            // 1. Vị trí của người dùng hiện tại (để làm điểm xuất phát chỉ đường)
-//            intent.putExtra("userLatitude", 10.7769);      // Vĩ độ người dùng (double)
-//            intent.putExtra("userLongitude", 106.7009);    // Kinh độ người dùng (double)
-//
-//            // 2. Vị trí tai nạn (để hiển thị trên bản đồ và làm điểm đến)
-//            intent.putExtra("accidentLatitude", 10.7800);  // Vĩ độ tai nạn (double)
-//            intent.putExtra("accidentLongitude", 106.7100); // Kinh độ tai nạn (double)
-
-//            startActivity(intentMap);
-
-
+                } else {
+                    Log.e("Location", "Không lấy được vị trí hiện tại");
+                    Toast.makeText(AccidentDetailActivity.this, "Không thể lấy vị trí hiện tại", Toast.LENGTH_SHORT).show();
+                }
+            });
         });
 
         // Nút Cancel
         btnCancel.setOnClickListener(v -> {
             // Hủy thao tác
-            finish(); // đóng Activity hiện tại
-        });
+            ResponderStatusRequest responderStatusRequest = new ResponderStatusRequest();
+            responderStatusRequest.setAccidentId(bundle.getInt("accidentId"));
+            responderStatusRequest.setUnitId(sessionManager.getUserId());
+            responderStatusRequest.setStatus("cancelled");
 
+            Call<Map<String, String>> call = apiService.updateResponderStatus(responderStatusRequest);
+
+            call.enqueue(new Callback<Map<String, String>>() {
+                @Override
+                public void onResponse(Call<Map<String, String>> call, Response<Map<String, String>> response) {
+                    Map<String, String> result = response.body();
+
+                    int color = Color.parseColor("#757575"); // Grey color for cancelled
+                    String statusText = "Đã hủy";
+
+                    chipStatus.setText(statusText);
+                    chipStatus.setChipBackgroundColor(ColorStateList.valueOf(color));
+
+                    statusCode = "cancelled"; // Cập nhật statusCode
+                    updateStatusUI(statusCode);
+
+                    // Có thể thêm finish() ở đây nếu muốn đóng Activity sau khi hủy
+                    // finish();
+                }
+
+                @Override
+                public void onFailure(Call<Map<String, String>> call, Throwable t) {
+                    // Xử lý lỗi
+                    Toast.makeText(AccidentDetailActivity.this, "Lỗi khi hủy thao tác", Toast.LENGTH_SHORT).show();
+                }
+            });
+        });
     }
 
     private void updateStatusUI(String status) {
@@ -333,13 +314,13 @@ public class AccidentDetailActivity extends AppCompatActivity {
                 btnNavigation.setVisibility(View.GONE);
                 btnCancel.setVisibility(View.GONE);
                 break;
-//            case "completed":
-//                btnPrimaryAction.setVisibility(View.GONE);
-//                btnNavigation.setVisibility(View.GONE);
-//                break;
+            case "cancelled":
+                btnPrimaryAction.setVisibility(View.GONE);
+                btnNavigation.setVisibility(View.GONE);
+                btnCancel.setVisibility(View.GONE);
+                break;
         }
     }
-
 
     private void setupBottomNavigation() {
         // Set current selected item
